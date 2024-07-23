@@ -9,7 +9,7 @@ if [ "$(docker ps -q -f name=my-apache-php-app)" ]; then
 fi
 
 # Convert Windows path to Unix path
-WINDOWS_PATH="C:\\Users\\decla\\OneDrive\\Desktop\\SIT\\Year_2\\Y2T3\\Secure_Software_Development\\Labs\\Week_8\\jenkins-php-selenium-test\\src"
+WINDOWS_PATH="\\c:\\Users\\decla\\OneDrive\\Desktop\\SIT\\Year_2\\Y2T3\\Secure_Software_Development\\Labs\\Week_8\\jenkins-php-selenium-test\\src"
 UNIX_PATH=$(echo $WINDOWS_PATH | sed 's#\\#/#g' | sed 's#C:#/mnt/c#')
 
 # Run the new container

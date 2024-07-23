@@ -8,8 +8,10 @@ if [ "$(docker ps -q -f name=my-apache-php-app)" ]; then
     docker rm -f my-apache-php-app
 fi
 
-# Run the new container
-docker run -d -p 80:80 --name my-apache-php-app -v /c/Users/decla/OneDrive/Desktop/SIT/Year_2/Y2T3/Secure_Software_Development/Labs/Week_8/jenkins-php-selenium-test/:/var/www/html php:7.2-apache
+# Run the new container with volume mapping
+docker run -d -p 80:80 --name my-apache-php-app \
+    -v /c/Users/decla/OneDrive/Desktop/SIT/Year_2/Y2T3/Secure_Software_Development/Labs/Week_8/jenkins-php-selenium-test/:/var/www/html \
+    php:7.2-apache
 
 sleep 1
 

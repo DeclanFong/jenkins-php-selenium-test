@@ -8,12 +8,8 @@ if [ "$(docker ps -q -f name=my-apache-php-app)" ]; then
     docker rm -f my-apache-php-app
 fi
 
-# Convert Windows path to Unix path
-WINDOWS_PATH="\\c:\\Users\\decla\\OneDrive\\Desktop\\SIT\\Year_2\\Y2T3\\Secure_Software_Development\\Labs\\Week_8\\jenkins-php-selenium-test\\src"
-UNIX_PATH=$(echo $WINDOWS_PATH | sed 's#\\#/#g' | sed 's#C:#/mnt/c#')
-
 # Run the new container
-docker run -d -p 80:80 --name my-apache-php-app -v $UNIX_PATH:/var/www/html php:7.2-apache
+docker run -d -p 80:80 --name my-apache-php-app -v \\c\\Users\\decla\\OneDrive\\Desktop\\SIT\\Year_2\\Y2T3\\Secure_Software_Development\\Labs\\Week_8\\jenkins-php-selenium-test\\src:/var/www/html php:7.2-apache
 
 sleep 1
 

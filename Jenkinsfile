@@ -11,11 +11,13 @@ pipeline {
                                 sh 'chmod +x ./jenkins/scripts/deploy.sh'
                                 sh './jenkins/scripts/deploy.sh'
                                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                                echo 'Deployment completed successfully.'
                             } catch (Exception e) {
                                 error "Deployment failed: ${e.message}"
                             } finally {
                                 sh 'chmod +x ./jenkins/scripts/kill.sh'
                                 sh './jenkins/scripts/kill.sh'
+                                echo 'Cleanup completed.'
                             }
                         }
                     }
@@ -32,6 +34,7 @@ pipeline {
                             try {
                                 sh 'mvn -B -DskipTests clean package'
                                 sh 'mvn test'
+                                echo 'Headless browser tests completed successfully.'
                             } catch (Exception e) {
                                 error "Headless Browser Test failed: ${e.message}"
                             }
@@ -40,6 +43,7 @@ pipeline {
                     post {
                         always {
                             junit 'target/surefire-reports/*.xml'
+                            echo 'JUnit test results processed.'
                         }
                     }
                 }

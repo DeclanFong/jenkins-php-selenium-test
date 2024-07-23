@@ -16,8 +16,16 @@ docker exec my-apache-php-app /bin/sh -c "chown -R www-data:www-data /var/www/ht
 
 # Wait for the container to be fully ready
 echo "Waiting for the container to be ready..."
+# Add a timeout to avoid an infinite loop in case of issues
+TIMEOUT=60
+ELAPSED=0
 while ! curl -s http://localhost > /dev/null; do
+    if [ $ELAPSED -ge $TIMEOUT ]; then
+        echo "Timeout: The container did not become ready within $TIMEOUT seconds."
+        exit 1
+    fi
     sleep 1
+    ELAPSED=$((ELAPSED + 1))
 done
 
 set +x

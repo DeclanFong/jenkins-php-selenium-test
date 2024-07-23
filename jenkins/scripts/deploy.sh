@@ -9,7 +9,7 @@ if [ "$(docker ps -q -f name=my-apache-php-app)" ]; then
 fi
 
 # Run the new container
-docker run -d -p 80:80 --name my-apache-php-app -v C:\\ssd\\labs\\jenkins-php-selenium-test\\src:/var/www/html php:7.2-apache
+docker run -d -p 80:80 --name my-apache-php-app -v /ssd/labs/jenkins-php-selenium-test/src:/var/www/html php:7.2-apache
 
 # Ensure the correct permissions are set inside the container
 docker exec my-apache-php-app /bin/sh -c "chown -R www-data:www-data /var/www/html && find /var/www/html -type d -exec chmod 755 {} \; && find /var/www/html -type f -exec chmod 644 {} \;"

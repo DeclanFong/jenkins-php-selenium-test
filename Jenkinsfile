@@ -6,11 +6,18 @@ pipeline {
                 stage('Deploy') {
                     agent any
                     steps {
-                        sh 'chmod +x ./jenkins/scripts/deploy.sh'
-                        sh './jenkins/scripts/deploy.sh'
-                        input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                        sh 'chmod +x ./jenkins/scripts/kill.sh'
-                        sh './jenkins/scripts/kill.sh'
+                        script {
+                            try {
+                                sh 'chmod +x ./jenkins/scripts/deploy.sh'
+                                sh './jenkins/scripts/deploy.sh'
+                                input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                            } catch (Exception e) {
+                                error "Deployment failed: ${e.message}"
+                            } finally {
+                                sh 'chmod +x ./jenkins/scripts/kill.sh'
+                                sh './jenkins/scripts/kill.sh'
+                            }
+                        }
                     }
                 }
                 stage('Headless Browser Test') {
@@ -21,8 +28,14 @@ pipeline {
                         }
                     }
                     steps {
-                        sh 'mvn -B -DskipTests clean package'
-                        sh 'mvn test'
+                        script {
+                            try {
+                                sh 'mvn -B -DskipTests clean package'
+                                sh 'mvn test'
+                            } catch (Exception e) {
+                                error "Headless Browser Test failed: ${e.message}"
+                            }
+                        }
                     }
                     post {
                         always {
